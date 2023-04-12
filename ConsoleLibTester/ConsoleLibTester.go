@@ -17,7 +17,9 @@ func main() {
 	} else {
 		console.Println("Okay, let's stop here.")
 	}
-	console.ProgressBar(50)
+	console.ProgressBar(69)
+	console.ProgressBarInColor(69, "red")
+	console.ProgressHotBar(69)
 	console.PrintInColor("red", "This is a red message\n")
 	console.PrintInColor("green", "This is a green message\n")
 	confirmed = console.Confirm("Do you want to clear the console?")
