@@ -77,19 +77,19 @@ func TestPrint(t *testing.T) {
 		switch i {
 		case 0:
 			if contentSplit[i] != str {
-				t.Errorf("Expected %s, got %s", str, contentSplit[i])
+				t.Errorf("Error Print(%s), got %s", str, contentSplit[i])
 			}
 		case 1:
 			if contentSplit[i] != fmt.Sprintf("%d", x) {
-				t.Errorf("Expected %d, got %s", x, contentSplit[i])
+				t.Errorf("Error Print(%d), got %s", x, contentSplit[i])
 			}
 		case 2:
 			if contentSplit[i] != fmt.Sprintf("%g", y) {
-				t.Errorf("Expected %g, got %s", y, contentSplit[i])
+				t.Errorf("Error Print(%g), got %s", y, contentSplit[i])
 			}
 		case 3:
 			if contentSplit[i] != fmt.Sprintf("%t", check) {
-				t.Errorf("Expected %t, got %s", check, contentSplit[i])
+				t.Errorf("Error Print(%t), got %s", check, contentSplit[i])
 			}
 		}
 	}
@@ -132,19 +132,19 @@ func TestPrintf(t *testing.T) {
 		switch i {
 		case 0:
 			if contentSplit[i] != str {
-				t.Errorf("Expected %s, got %s", str, contentSplit[i])
+				t.Errorf("Error Printf(%s), got %s", str, contentSplit[i])
 			}
 		case 1:
 			if contentSplit[i] != fmt.Sprintf("%d", x) {
-				t.Errorf("Expected %d, got %s", x, contentSplit[i])
+				t.Errorf("Error Printf(%d), got %s", x, contentSplit[i])
 			}
 		case 2:
 			if contentSplit[i] != fmt.Sprintf("%g", y) {
-				t.Errorf("Expected %g, got %s", y, contentSplit[i])
+				t.Errorf("Error Printf(%g), got %s", y, contentSplit[i])
 			}
 		case 3:
 			if contentSplit[i] != fmt.Sprintf("%t", check) {
-				t.Errorf("Expected %t, got %s", check, contentSplit[i])
+				t.Errorf("Error Printf(%t), got %s", check, contentSplit[i])
 			}
 		}
 	}
@@ -471,6 +471,64 @@ func TestPrintInColor(t *testing.T) {
 		case 56:
 			if contentSplit[i] != str {
 				t.Errorf("Error PrintInColor(ColorOff, %s), got %s", str, contentSplit[i])
+			}
+		}
+	}
+}
+
+func TestPrintln(t *testing.T) {
+	str := "Test123"
+	x := 123
+	y := 123.456
+	check := true
+
+	file, err := os.OpenFile("unit_test_files/print.txt", os.O_RDWR, 0777)
+	if err != nil {
+		t.Errorf("Error opening file: %v", err)
+	}
+	err = file.Truncate(0)
+	if err != nil {
+		t.Errorf("Error truncating file: %v", err)
+	}
+	os.Stdout = file
+
+	Println(str)
+	Println(x)
+	Println(y)
+	Println(check)
+
+	err = os.Stdout.Sync()
+	if err != nil {
+		t.Errorf("Error syncing stdout: %v", err)
+	}
+	err = os.Stdout.Close()
+	if err != nil {
+		t.Errorf("Error closing stdout: %v", err)
+	}
+
+	content, err := os.ReadFile("unit_test_files/print.txt")
+	if err != nil {
+		t.Errorf("Error reading file: %v", err)
+	}
+
+	contentSplit := strings.Split(string(content), "\n")
+	for i := 0; i < len(contentSplit); i++ {
+		switch i {
+		case 0:
+			if contentSplit[i] != str {
+				t.Errorf("Error Println(%s), got %s", str, contentSplit[i])
+			}
+		case 1:
+			if contentSplit[i] != fmt.Sprintf("%d", x) {
+				t.Errorf("Error Println(%d), got %s", x, contentSplit[i])
+			}
+		case 2:
+			if contentSplit[i] != fmt.Sprintf("%g", y) {
+				t.Errorf("Error Println(%g), got %s", y, contentSplit[i])
+			}
+		case 3:
+			if contentSplit[i] != fmt.Sprintf("%t", check) {
+				t.Errorf("Error Println(%t), got %s", check, contentSplit[i])
 			}
 		}
 	}
