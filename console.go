@@ -107,7 +107,7 @@ func Input() string {
 }
 
 // InputFloat takes user input from console and returns a float64
-func InputFloat() (float64, string) {
+func InputFloat() (float64, error) {
 	var str string
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -117,13 +117,13 @@ func InputFloat() (float64, string) {
 
 	input, err := strconv.ParseFloat(str, 64)
 	if err != nil {
-		return 0, "Failed to convert the input to float64"
+		return 0, err
 	}
-	return input, ""
+	return input, nil
 }
 
 // InputInt takes user input from console and returns an int
-func InputInt() (int, string) {
+func InputInt() (int, error) {
 	var str string
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -133,9 +133,9 @@ func InputInt() (int, string) {
 
 	input, err := strconv.Atoi(str)
 	if err != nil {
-		return 0, "Failed to convert the input to int"
+		return 0, err
 	}
-	return input, ""
+	return input, nil
 }
 
 // Print prints args to console
