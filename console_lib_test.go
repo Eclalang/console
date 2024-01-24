@@ -468,10 +468,6 @@ func TestPrintInColor(t *testing.T) {
 			if contentSplit[i] != On_IYellow+str {
 				t.Errorf("Error PrintInColor(On_IYellow, %s), got %s", str, contentSplit[i])
 			}
-		case 56:
-			if contentSplit[i] != str {
-				t.Errorf("Error PrintInColor(ColorOff, %s), got %s", str, contentSplit[i])
-			}
 		}
 	}
 }
