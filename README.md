@@ -6,8 +6,8 @@
 |:------------:|:--------------------------------------------------:|:---------------------------------------------------:|:--------:|
 |    Clear     |                      Clear()                       |                 Clears the console                  |   N/A    |
 |    Input     |                 Input() string {}                  | Takes user input from console and returns a string  |   N/A    |
-|  InputFloat  |                  InputFloat() {}                   | Takes user input from console and returns a float64 |   N/A    |
-|   InputInt   |                   InputInt() {}                    |  Takes user input from console and returns an int   |   N/A    |
+|  InputFloat  |           InputFloat() (float, error) {}           | Takes user input from console and returns a float64 |   N/A    |
+|   InputInt   |             InputInt() (int, error) {}             |  Takes user input from console and returns an int   |   N/A    |
 |    Print     |           Print(args ...interface{}) {}            |               Prints args to console                |   N/A    |
 |    Printf    |   Printf(format string, args ...interface{}) {}    |    Prints args to console formatted with format     |   N/A    |
 | PrintInColor | PrintInColor(color string, args ...interface{}) {} |           Prints args to console in color           |   N/A    |
