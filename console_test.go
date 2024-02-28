@@ -12,10 +12,12 @@ func TestClear(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
 	}
+	defer file.Close()
 	err = file.Truncate(0)
 	if err != nil {
 		t.Errorf("Error truncating file: %v", err)
 	}
+	old := os.Stdout
 	os.Stdout = file
 
 	Clear()
@@ -24,10 +26,6 @@ func TestClear(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error syncing stdout: %v", err)
 	}
-	err = os.Stdout.Close()
-	if err != nil {
-		t.Errorf("Error closing stdout: %v", err)
-	}
 
 	content, err := os.ReadFile("unit_test_files/clear.txt")
 	if err != nil {
@@ -35,8 +33,61 @@ func TestClear(t *testing.T) {
 	}
 
 	expected := "\u001B[H\u001B[2J"
+	os.Stdout = old
 	if string(content) != expected {
 		t.Errorf("Expected %v, got %v", expected, string(content))
+	}
+}
+
+func TestInput(t *testing.T) {
+	input := strings.NewReader("Hello!")
+	read = input
+	got := Input()
+	read = os.Stdin
+	if got != "Hello!" {
+		t.Errorf("Expected Hello!, got %s", got)
+	}
+}
+
+func TestInputFloat(t *testing.T) {
+	input := strings.NewReader("123.456")
+	read = input
+	got, err := InputFloat()
+	read = os.Stdin
+	if err != nil {
+		t.Errorf("Error: %v", err)
+	}
+	if got != 123.456 {
+		t.Errorf("Expected 123.456, got %g", got)
+	}
+
+	input = strings.NewReader("Hello!")
+	read = input
+	_, err = InputFloat()
+	read = os.Stdin
+	if err == nil {
+		t.Errorf("Expected error, got nil")
+	}
+}
+
+func TestInputInt(t *testing.T) {
+	input := strings.NewReader("123")
+	read = input
+	got, err := InputInt()
+	read = os.Stdin
+	if err != nil {
+		t.Errorf("Error: %v", err)
+	}
+	if got != 123 {
+		t.Errorf("Expected 123, got %d", got)
+	}
+
+	input = strings.NewReader("Hello!")
+	read = input
+	_, err = InputInt()
+	read = os.Stdin
+	if err == nil {
+		t.Errorf("Expected error, got nil")
 	}
 }
 
@@ -50,10 +101,12 @@ func TestPrint(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
 	}
+	defer file.Close()
 	err = file.Truncate(0)
 	if err != nil {
 		t.Errorf("Error truncating file: %v", err)
 	}
+	old := os.Stdout
 	os.Stdout = file
 
 	Print(str, "\n", x, "\n", y, "\n", check)
@@ -62,16 +115,13 @@ func TestPrint(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error syncing stdout: %v", err)
 	}
-	err = os.Stdout.Close()
-	if err != nil {
-		t.Errorf("Error closing stdout: %v", err)
-	}
 
 	content, err := os.ReadFile("unit_test_files/print.txt")
 	if err != nil {
 		t.Errorf("Error reading file: %v", err)
 	}
 
+	os.Stdout = old
 	contentSplit := strings.Split(string(content), "\n")
 	for i := 0; i < len(contentSplit); i++ {
 		switch i {
@@ -105,10 +155,12 @@ func TestPrintf(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
 	}
+	defer file.Close()
 	err = file.Truncate(0)
 	if err != nil {
 		t.Errorf("Error truncating file: %v", err)
 	}
+	old := os.Stdout
 	os.Stdout = file
 
 	Printf("%s\n%d\n%g\n%t\n", str, x, y, check)
@@ -117,16 +169,13 @@ func TestPrintf(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error syncing stdout: %v", err)
 	}
-	err = os.Stdout.Close()
-	if err != nil {
-		t.Errorf("Error closing stdout: %v", err)
-	}
 
 	content, err := os.ReadFile("unit_test_files/print.txt")
 	if err != nil {
 		t.Errorf("Error reading file: %v", err)
 	}
 
+	os.Stdout = old
 	contentSplit := strings.Split(string(content), "\n")
 	for i := 0; i < len(contentSplit); i++ {
 		switch i {
@@ -157,10 +206,12 @@ func TestPrintInColor(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
 	}
+	defer file.Close()
 	err = file.Truncate(0)
 	if err != nil {
 		t.Errorf("Error truncating file: %v", err)
 	}
+	old := os.Stdout
 	os.Stdout = file
 
 	PrintInColor(BLACK, str)
@@ -232,15 +283,13 @@ func TestPrintInColor(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error syncing stdout: %v", err)
 	}
-	err = os.Stdout.Close()
-	if err != nil {
-		t.Errorf("Error closing stdout: %v", err)
-	}
 
 	content, err := os.ReadFile("unit_test_files/print.txt")
 	if err != nil {
 		t.Errorf("Error reading file: %v", err)
 	}
+
+	os.Stdout = old
 	contentSplit := strings.Split(string(content), "\033[0m")
 	for i := 0; i < len(contentSplit); i++ {
 		switch i {
@@ -482,10 +531,12 @@ func TestPrintln(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
 	}
+	defer file.Close()
 	err = file.Truncate(0)
 	if err != nil {
 		t.Errorf("Error truncating file: %v", err)
 	}
+	old := os.Stdout
 	os.Stdout = file
 
 	Println(str)
@@ -497,16 +548,13 @@ func TestPrintln(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error syncing stdout: %v", err)
 	}
-	err = os.Stdout.Close()
-	if err != nil {
-		t.Errorf("Error closing stdout: %v", err)
-	}
 
 	content, err := os.ReadFile("unit_test_files/print.txt")
 	if err != nil {
 		t.Errorf("Error reading file: %v", err)
 	}
 
+	os.Stdout = old
 	contentSplit := strings.Split(string(content), "\n")
 	for i := 0; i < len(contentSplit); i++ {
 		switch i {

@@ -3,6 +3,7 @@ package console
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"runtime"
 	"strconv"
@@ -85,6 +86,9 @@ var (
 
 )
 
+// For testing purposes
+var read io.Reader = os.Stdin
+
 // Clear clears the console
 func Clear() {
 	if runtime.GOOS == "windows" {
@@ -97,7 +101,7 @@ func Clear() {
 // Input takes user input from console and returns a string
 func Input() string {
 	var str string
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(read)
 
 	if scanner.Scan() {
 		str = scanner.Text()
@@ -109,7 +113,7 @@ func Input() string {
 // InputFloat takes user input from console and returns a float64
 func InputFloat() (float64, error) {
 	var str string
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(read)
 
 	if scanner.Scan() {
 		str = scanner.Text()
@@ -125,7 +129,7 @@ func InputFloat() (float64, error) {
 // InputInt takes user input from console and returns an int
 func InputInt() (int, error) {
 	var str string
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(read)
 
 	if scanner.Scan() {
 		str = scanner.Text()
