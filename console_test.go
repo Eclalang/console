@@ -3,6 +3,7 @@ package console
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -33,6 +34,9 @@ func TestClear(t *testing.T) {
 	}
 
 	expected := "\u001B[H\u001B[2J"
+	if runtime.GOOS != "windows" {
+		expected = "\u001B[2J"
+	}
 	os.Stdout = old
 	if string(content) != expected {
 		t.Errorf("Expected %v, got %v", expected, string(content))
