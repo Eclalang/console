@@ -1,5 +1,8 @@
 # Console library
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/Eclalang/console)](https://goreportcard.com/report/github.com/Eclalang/console)
+[![codecov](https://codecov.io/gh/Eclalang/console/graph/badge.svg?token=YNCIYERVBO)](https://codecov.io/gh/Eclalang/console)
+
 ## Candidate functions :
 
 |  Func name   |                     Prototype                      |                     Description                     | Comments |
