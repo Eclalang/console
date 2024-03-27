@@ -3,6 +3,7 @@ package console
 import (
 	"bufio"
 	"fmt"
+	"github.com/Eclalang/Ecla/interpreter/eclaType"
 	"io"
 	"os"
 	"runtime"
@@ -84,6 +85,73 @@ var (
 	On_ICyan    = "\033[0;106m" // Cyan
 	On_IWhite   = "\033[0;107m" // White
 
+	// Map of variables for Ecla
+	Variables = map[string]eclaType.Type{
+		"COLOROFF": eclaType.String(ColorOff),
+		// Regular colors
+		"BLACK":   eclaType.String(BLACK),
+		"RED":     eclaType.String(RED),
+		"GREEN":   eclaType.String(GREEN),
+		"YELLOW":  eclaType.String(YELLOW),
+		"BLUE":    eclaType.String(BLUE),
+		"MAGENTA": eclaType.String(MAGENTA),
+		"CYAN":    eclaType.String(CYAN),
+		"WHITE":   eclaType.String(WHITE),
+		// Bold colors
+		"B_BLACK":   eclaType.String(BBlack),
+		"B_RED":     eclaType.String(BRed),
+		"B_GREEN":   eclaType.String(BGreen),
+		"B_YELLOW":  eclaType.String(BYellow),
+		"B_BLUE":    eclaType.String(BBlue),
+		"B_MAGENTA": eclaType.String(BMagenta),
+		"B_CYAN":    eclaType.String(BCyan),
+		"B_WHITE":   eclaType.String(BWhite),
+		// Underline colors
+		"U_BLACK":   eclaType.String(UBlack),
+		"U_RED":     eclaType.String(URed),
+		"U_GREEN":   eclaType.String(UGreen),
+		"U_YELLOW":  eclaType.String(UYellow),
+		"U_BLUE":    eclaType.String(UBlue),
+		"U_MAGENTA": eclaType.String(UMagenta),
+		"U_CYAN":    eclaType.String(UCyan),
+		"U_WHITE":   eclaType.String(UWhite),
+		// Background colors
+		"ON_BLACK":   eclaType.String(On_Black),
+		"ON_RED":     eclaType.String(On_Red),
+		"ON_GREEN":   eclaType.String(On_Green),
+		"ON_YELLOW":  eclaType.String(On_Yellow),
+		"ON_BLUE":    eclaType.String(On_Blue),
+		"ON_MAGENTA": eclaType.String(On_Magenta),
+		"ON_CYAN":    eclaType.String(On_Cyan),
+		"ON_WHITE":   eclaType.String(On_White),
+		// High Intensity colors
+		"I_BLACK":   eclaType.String(IBlack),
+		"I_RED":     eclaType.String(IRed),
+		"I_GREEN":   eclaType.String(IGreen),
+		"I_YELLOW":  eclaType.String(IYellow),
+		"I_BLUE":    eclaType.String(IBlue),
+		"I_MAGENTA": eclaType.String(IMagenta),
+		"I_CYAN":    eclaType.String(ICyan),
+		"I_WHITE":   eclaType.String(IWhite),
+		// Bold High Intensity colors
+		"BI_BLACK":   eclaType.String(BIBlack),
+		"BI_RED":     eclaType.String(BIRed),
+		"BI_GREEN":   eclaType.String(BIGreen),
+		"BI_YELLOW":  eclaType.String(BIYellow),
+		"BI_BLUE":    eclaType.String(BIBlue),
+		"BI_MAGENTA": eclaType.String(BIMagenta),
+		"BI_CYAN":    eclaType.String(BICyan),
+		"BI_WHITE":   eclaType.String(BIWhite),
+		// High Intensity background colors
+		"ONI_BLACK":   eclaType.String(On_IBlack),
+		"ONI_RED":     eclaType.String(On_IRed),
+		"ONI_GREEN":   eclaType.String(On_IGreen),
+		"ONI_YELLOW":  eclaType.String(On_IYellow),
+		"ONI_BLUE":    eclaType.String(On_IBlue),
+		"ONI_MAGENTA": eclaType.String(On_IMagenta),
+		"ONI_CYAN":    eclaType.String(On_ICyan),
+		"ONI_WHITE":   eclaType.String(On_IWhite),
+	}
 )
 
 // For testing purposes
