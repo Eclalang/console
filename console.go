@@ -211,23 +211,71 @@ func InputInt() (int, error) {
 }
 
 // Print prints args to console
-func Print(args ...interface{}) {
-	fmt.Print(args...)
+func Print(args ...any) {
+	for _, arg := range args {
+		if arg == nil {
+			arg = "null"
+		}
+		fmt.Print(arg)
+	}
 }
 
 // Printf prints args to console formatted with format
-func Printf(format string, args ...interface{}) {
+func Printf(format string, args ...any) {
+	for i, arg := range args {
+		if arg == nil {
+			args[i] = "null"
+		}
+	}
 	fmt.Printf(format, args...)
 }
 
 // PrintInColor prints args to console in color
-func PrintInColor(color string, args ...interface{}) {
+func PrintInColor(color string, args ...any) {
 	fmt.Print(color)
+	for i, arg := range args {
+		if arg == nil {
+			args[i] = "null"
+		}
+	}
 	fmt.Print(args...)
 	fmt.Print(ColorOff)
 }
 
 // Println prints args to console with a newline
-func Println(args ...interface{}) {
-	fmt.Println(args...)
+func Println(args ...any) {
+	for _, arg := range args {
+		if arg == nil {
+			arg = "null"
+		}
+		fmt.Print(arg)
+	}
+	fmt.Println()
+}
+
+func SPrint(args ...any) string {
+	for i, arg := range args {
+		if arg == nil {
+			args[i] = "null"
+		}
+	}
+	return fmt.Sprint(args...)
+}
+
+func SPrintf(format string, args ...any) string {
+	for i, arg := range args {
+		if arg == nil {
+			args[i] = "null"
+		}
+	}
+	return fmt.Sprintf(format, args...)
+}
+
+func SPrintln(args ...any) string {
+	for i, arg := range args {
+		if arg == nil {
+			args[i] = "null"
+		}
+	}
+	return fmt.Sprintln(args...)
 }

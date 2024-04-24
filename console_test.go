@@ -100,6 +100,7 @@ func TestPrint(t *testing.T) {
 	x := 123
 	y := 123.456
 	check := true
+	var empty any = nil
 
 	file, err := os.OpenFile("unit_test_files/print.txt", os.O_RDWR, 0777)
 	if err != nil {
@@ -113,7 +114,7 @@ func TestPrint(t *testing.T) {
 	old := os.Stdout
 	os.Stdout = file
 
-	Print(str, "\n", x, "\n", y, "\n", check)
+	Print(str, "\n", x, "\n", y, "\n", check, "\n", empty)
 
 	err = os.Stdout.Sync()
 	if err != nil {
@@ -145,6 +146,10 @@ func TestPrint(t *testing.T) {
 			if contentSplit[i] != fmt.Sprintf("%t", check) {
 				t.Errorf("Error Print(%t), got %s", check, contentSplit[i])
 			}
+		case 4:
+			if contentSplit[i] != "null" {
+				t.Errorf("Error Print(nil), got %s", contentSplit[i])
+			}
 		}
 	}
 }
@@ -154,6 +159,7 @@ func TestPrintf(t *testing.T) {
 	x := 123
 	y := 123.456
 	check := true
+	var empty any = nil
 
 	file, err := os.OpenFile("unit_test_files/print.txt", os.O_RDWR, 0777)
 	if err != nil {
@@ -167,7 +173,7 @@ func TestPrintf(t *testing.T) {
 	old := os.Stdout
 	os.Stdout = file
 
-	Printf("%s\n%d\n%g\n%t\n", str, x, y, check)
+	Printf("%s\n%d\n%g\n%t\n%v", str, x, y, check, empty)
 
 	err = os.Stdout.Sync()
 	if err != nil {
@@ -199,12 +205,17 @@ func TestPrintf(t *testing.T) {
 			if contentSplit[i] != fmt.Sprintf("%t", check) {
 				t.Errorf("Error Printf(%t), got %s", check, contentSplit[i])
 			}
+		case 4:
+			if contentSplit[i] != "null" {
+				t.Errorf("Error Printf(%v), got %s", empty, contentSplit[i])
+			}
 		}
 	}
 }
 
 func TestPrintInColor(t *testing.T) {
 	str := "Test123\n"
+	var empty any = nil
 
 	file, err := os.OpenFile("unit_test_files/print.txt", os.O_RDWR, 0777)
 	if err != nil {
@@ -282,6 +293,7 @@ func TestPrintInColor(t *testing.T) {
 	PrintInColor(On_IYellow, str)
 
 	PrintInColor(ColorOff, str)
+	PrintInColor(ColorOff, empty)
 
 	err = os.Stdout.Sync()
 	if err != nil {
@@ -521,6 +533,14 @@ func TestPrintInColor(t *testing.T) {
 			if contentSplit[i] != On_IYellow+str {
 				t.Errorf("Error PrintInColor(On_IYellow, %s), got %s", str, contentSplit[i])
 			}
+		case 57:
+			if contentSplit[i] != str {
+				t.Errorf("Error PrintInColor(ColorOff, %s), got %s", str, contentSplit[i])
+			}
+		case 59:
+			if contentSplit[i] != "null" {
+				t.Errorf("Error PrintInColor(ColorOff, %v), got %s", empty, contentSplit[i])
+			}
 		}
 	}
 }
@@ -530,6 +550,7 @@ func TestPrintln(t *testing.T) {
 	x := 123
 	y := 123.456
 	check := true
+	var empty any = nil
 
 	file, err := os.OpenFile("unit_test_files/print.txt", os.O_RDWR, 0777)
 	if err != nil {
@@ -547,6 +568,7 @@ func TestPrintln(t *testing.T) {
 	Println(x)
 	Println(y)
 	Println(check)
+	Println(empty)
 
 	err = os.Stdout.Sync()
 	if err != nil {
@@ -579,5 +601,47 @@ func TestPrintln(t *testing.T) {
 				t.Errorf("Error Println(%t), got %s", check, contentSplit[i])
 			}
 		}
+	}
+}
+
+func TestSPrint(t *testing.T) {
+	str := "Test123"
+	x := 123
+	y := 123.456
+	check := true
+	var empty any = nil
+
+	got := SPrint(str, x, y, check, empty)
+	expected := fmt.Sprint(str, x, y, check) + "null"
+	if got != expected {
+		t.Errorf("Expected %s, got %s", expected, got)
+	}
+}
+
+func TestSPrintf(t *testing.T) {
+	str := "Test123"
+	x := 123
+	y := 123.456
+	check := true
+	var empty any = nil
+
+	got := SPrintf("%s%d%g%t%v", str, x, y, check, empty)
+	expected := fmt.Sprintf("%s%d%g%t%v", str, x, y, check, "null")
+	if got != expected {
+		t.Errorf("Expected %s, got %s", expected, got)
+	}
+}
+
+func TestSPrintln(t *testing.T) {
+	str := "Test123"
+	x := 123
+	y := 123.456
+	check := true
+	var empty any = nil
+
+	got := SPrintln(str, x, y, check, empty)
+	expected := fmt.Sprintln(str, x, y, check, "null")
+	if got != expected {
+		t.Errorf("Expected %s, got %s", expected, got)
 	}
 }
